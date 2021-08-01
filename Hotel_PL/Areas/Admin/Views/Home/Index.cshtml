@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div style="text-align: center">
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <form class="pr-2" asp-area="Admin" asp-controller="Room" asp-action="AllRooms" method="get">
+            <input type="hidden" value="" />
+            <button type="submit" class="Admin-Button btn btn-primary"><img src="~/img/rooms-icon.png" height=80 width=80 />Список комнат</button>
+        </form>
+
+        <form class="pr-2" asp-area="Admin" asp-controller="Category" asp-action="AllCategories" method="get">
+            <input type="hidden" value="" />
+            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/categories_icon.png" height=80 width=80 />Список категорий</button>
+        </form>
+
+        <form class="pr-2" asp-controller="Booking" asp-action="AllBookings" method="get">
+            <input type="hidden" value="" />
+            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/bookings-icon.png" height=80 width=80 />Список бронирований</button>
+        </form>
+
+        <form class="pr-2" asp-controller="User" asp-action="AllGuests" method="get">
+            <input type="hidden" value="" />
+            <button type="submit" class="Admin-Button  btn btn-primary">
+                <img src="~/img/users-icon.png" height=80 width=80 />Список пользователей
+            </button>
+        </form>
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <form class="pr-2" asp-controller="PriceCategory" asp-action="AllPriceCategories" method="get">
+            <input type="hidden" value="" />
+            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/pricecategory-icon.png" height=80 width=80 />Список цен по категориям</button>
+        </form>
+
+        <form class="pr-2" asp-controller="Roles" asp-action="Index" method="post">
+            <input type="hidden" value="" />
+            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/roles-icon.png" height=80 width=80 />Список ролей</button>
+        </form>
+
+        <form class="pr-2" asp-area="Admin" asp-controller="Profit" asp-action="ProfitByMonths" method="get">
+            <input type="hidden" value="" />
+            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/monthsProfit-icon.png" height=80 width=80 />Прибыль по месяцам</button>
+        </form>
+
+        <form class="pr-2" asp-area="Admin" asp-controller="Profit" asp-action="ProfitByMonth" method="get">
+            <input type="hidden" value="" />
+            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/monthProfit-icon.png" height=80 width=80 />Прибыль за месяц</button>
+        </form>
+    </div>
+
+</div>
+
+
+

@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewData["Title"] = "Прибыль за месяц";
+}
+
+<h1>Прибыль за выбранный месяц</h1>
+<form asp-area="Admin" asp-controller="Profit" asp-action="ProfitByMonthResult" method="get">
+    <label>Дата</label>
+    <input type="month" name="month" />
+    <button type="submit" class="btn btn-success">Поиск</button>
+</form>

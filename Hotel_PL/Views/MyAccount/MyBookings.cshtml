@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Hotel_PL.Models.BookingModel>
+
+@{
+    ViewData["Title"] = "MyBookings";
+}
+
+<h1 class="mb-5">Мои бронирования</h1>
+
+
+<table class="table mb-5">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnterDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.room.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.room.RoomCategory.Name)
+            </th>
+            <th>            
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnterDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveDate)
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.room.Name)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.room.RoomCategory.Name)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </th>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a class="text-primary" asp-action="Index">Назад</a>
+</div>

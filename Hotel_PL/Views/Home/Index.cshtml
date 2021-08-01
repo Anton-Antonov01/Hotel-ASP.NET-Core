@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Главное меню";
+}
+
+<!-- Hero Section Begin -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="hero-text">
+                    <h1>Онлайн отель</h1>
+                    <p>
+                        Здесь вы можете забронировать комнату в отеле
+
+                    </p>
+                    <a  class="primary-btn" asp-area="default" asp-controller="Room" asp-action="AllRooms" method="get">Перейти к списку комнат</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-slider owl-carousel">
+        <div class="hs-item set-bg" data-setbg="img/hero-1.jpg"></div>
+        <div class="hs-item set-bg" data-setbg="img/hero-2.jpg"></div>
+        <div class="hs-item set-bg" data-setbg="img/hero-3.jpg"></div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+<!-- About Us Section Begin -->
+<section class="aboutus-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="about-text">
+                    <div class="section-title">
+                        <span>О нас</span>
+                        <h2>NIX Отель</h2>
+                    </div>
+                    <p class="f-para">
+                        "NIX Отель" - это превосходное место, где вы можете расслабиться, как морально, так и физически.
+                        Отлично подходит для приятного отдыха с семьёй, друзьями и близкими людьми. Неповторимая атмосфера
+                        ресторанов отеля располагает к приятным беседам, а изысканная кухня порадует своим широким выбором
+                        на любой вкус. Вас ждут комфортные, просторные и уютные номера с шикарными видами на красоты местной природы.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-pic">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img src="img/about-1.jpg" alt="">
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="img/about-2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Us Section End -->

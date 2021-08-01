@@ -1,0 +1,45 @@
+﻿@model Hotel_PL.Models.RoomModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="mb-4">Комната № @Model.Name</h1>
+
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomCategory.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomCategory.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomCategory.Bed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomCategory.Bed)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomCategory.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomCategory.Description)
+        </dd>
+    </dl>
+</div>
+<form  class="ButtonsGroup mb-3" asp-controller="RoomBooking" asp-action="DoBooking" method="get">
+    <input type="hidden" value="" />
+    <button name="RoomId" value=@Model.Id type="submit" class="btn btn-success">Забронировать</button>
+</form>
+<div>
+    <a class="text-primary" asp-controller="Room" asp-action="AllRooms">Назад</a>
+</div>
+

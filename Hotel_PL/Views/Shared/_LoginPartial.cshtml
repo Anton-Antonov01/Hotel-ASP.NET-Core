@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Mvc;
+@if (User.Identity.IsAuthenticated)
+{
+ 
+
+<ul class="nav navbar-nav navbar-right">
+    <li class="nav-item right">
+        <a class="nav-link text-dark" asp-area="default" asp-controller="Account" asp-action="Logout">Выйти</a>
+    </li>
+</ul>
+   
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+         <li class="nav-item right">
+             <a class="nav-link text-dark" asp-controller="Account" asp-action="Register" method="get">Регистрация</a>
+         </li>
+         <li class="nav-item">
+             <a class="nav-link text-dark" asp-controller="Account" asp-action="Login" method="get">Войти</a>
+         </li>
+
+    </ul>
+}

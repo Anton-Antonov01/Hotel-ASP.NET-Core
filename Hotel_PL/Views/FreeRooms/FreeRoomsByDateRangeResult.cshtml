@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Hotel_PL.Models.RoomModel>
+
+@{
+    ViewData["Title"] = "FreeRoomsByDateRangeResult";
+}
+
+<h1 class="mb-5">Свободные комнаты на диапазон дат</h1>
+
+<!-- Rooms Section Begin -->
+<section class="rooms-section spad">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+            <div class="col-lg-4 col-md-6">
+                <div class="room-item">
+                    <img src="img/room-1.jpg" alt="">
+                    <div class="ri-text">
+                        <h4>Комната № @item.Name</h4>
+                        <h4> Категория  @Html.DisplayFor(modelItem => item.RoomCategory.Name)</h4>
+                        <h3>@item.Price UAH<span>/за сутки</span></h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="r-o">Кровати:</td>
+                                    <td>@Html.DisplayFor(modelItem => item.RoomCategory.Bed)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a asp-controller="Room" asp-action="Details" name="id" asp-route-id=@item.Id class="primary-btn">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+<div>
+    <a class="text-primary" asp-controller="Room" asp-action="AllRooms">Назад</a>
+</div>

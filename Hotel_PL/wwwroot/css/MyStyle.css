@@ -1,0 +1,20 @@
+﻿body {
+}
+
+.ButtonsGroup button {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: 2px;
+    background: #dfa974;
+    border: none;
+    padding: 14px 34px 13px;
+    display: inline-block;
+}
+
+.Admin-Button {
+    height: 150px;
+    width: 150px;
+    margin: 10px;
+}

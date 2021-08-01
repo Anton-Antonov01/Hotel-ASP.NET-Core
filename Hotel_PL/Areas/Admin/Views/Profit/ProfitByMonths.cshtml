@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Hotel_PL.Models.ProfitByMonthModel>
+
+@{
+    ViewData["Title"] = "ProfitByMonths";
+}
+
+<h1>Прибыль по месяцам</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Profit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Month)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Month)
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>
