@@ -31,6 +31,10 @@ namespace Hotel_PL.ViewModels
             {
                 errors.Add(new ValidationResult("Колличество дней должно быть больше нуля"));
             }
+            if(roomBookingRequest.BookingDate.Date < DateTime.Now.Date || roomBookingRequest.EnterDate.Date < DateTime.Now.Date)
+            {
+                errors.Add(new ValidationResult("Нельзя указывать даты из прошлого"));
+            }
 
             return errors;
         }

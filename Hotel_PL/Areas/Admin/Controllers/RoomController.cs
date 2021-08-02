@@ -61,7 +61,15 @@ namespace Hotel_PL.Areas.Admin.Controllers
         // GET: RoomController/Details/5
         public ActionResult Details(int id)
         {
-            return View(mapper.Map<RoomDTO, RoomModel>(roomService.Get(id)));
+            try
+            {
+                return View(mapper.Map<RoomDTO, RoomModel>(roomService.Get(id)));
+            }
+            catch
+            {
+                var roomModels = mapper.Map<IEnumerable<RoomDTO>, IEnumerable<RoomModel>>(roomService.GetAllRooms());
+                return View("AllRooms",roomModels);
+            }
         }
 
         // GET: RoomController/Create

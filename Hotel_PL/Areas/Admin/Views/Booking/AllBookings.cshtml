@@ -5,7 +5,13 @@
 }
 
 <h1>Все бронирования</h1>
-
+<form class="mb-3" asp-action="Details" method="get">
+    <div style="width: 300px" class="input-group">
+        <input name="id" type="search" class="form-control rounded" placeholder="Поиск по Id" aria-label="Search"
+               aria-describedby="search-addon" />
+        <button type="submit" class="btn btn-outline-primary">Найти</button>
+    </div>
+</form>
 <p>
     <a asp-action="Create">создать бронирование</a>
 </p>
@@ -35,40 +41,46 @@
             <th>
                 @Html.DisplayNameFor(model => model.TotalPrice)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Set)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BookingDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnterDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeaveDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.room.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.user.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalPrice)
-                </td>
-                <td>
-                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Подробнее", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnterDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.room.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Set)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Подробнее", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

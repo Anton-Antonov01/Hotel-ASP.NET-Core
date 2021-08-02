@@ -5,7 +5,13 @@
 }
 
 <h1>Все комнаты</h1>
-
+<form class="mb-3" asp-action="Details" method="get">
+    <div style="width: 300px" class="input-group">
+        <input name="id" type="search" class="form-control rounded" placeholder="Поиск по Id" aria-label="Search"
+               aria-describedby="search-addon" />
+        <button type="submit" class="btn btn-outline-primary">Найти</button>
+    </div>
+</form>
 <p>
     <a asp-action="Create" >Добаваить комнату</a>
 </p>

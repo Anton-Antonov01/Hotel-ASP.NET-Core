@@ -25,7 +25,7 @@ namespace Hotel_PL.RequestModels
         public DateTime LeaveDate { get; set; }
 
         [Required]
-        [Display(Name = "Въехал ли гость")]
+        [Display(Name = "Заселение")]
         public bool Set { get; set; }
 
         [Required]

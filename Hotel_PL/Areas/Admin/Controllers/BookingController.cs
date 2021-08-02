@@ -67,12 +67,32 @@ namespace Hotel_PL.Areas.Admin.Controllers
             return View(bookingModels);
         }
 
+
+        public ActionResult CheckInTodayBookings()
+        {
+            var bookingDTOs = bookingService.GetAllBookings();
+            var bookingModels = mapper.Map<IEnumerable<BookingDTO>, IEnumerable<BookingModel>>(bookingDTOs).Where(b=> b.EnterDate.Date == DateTime.Now.Date);
+
+            return View("AllBookings",bookingModels);
+        }
+
         // GET: BookingController/Details/5
         public ActionResult Details(int id)
         {
-            var bookingDTO = bookingService.Get(id);
-            var bookingmodel = mapper.Map<BookingDTO, BookingModel>(bookingDTO);
-            return View("BookingDetails", bookingmodel);
+            try
+            {
+                var bookingDTO = bookingService.Get(id);
+                var bookingmodel = mapper.Map<BookingDTO, BookingModel>(bookingDTO);
+                return View("BookingDetails", bookingmodel);
+            }
+            catch
+            {
+                var bookingDTOs = bookingService.GetAllBookings();
+                var bookingModels = mapper.Map<IEnumerable<BookingDTO>, IEnumerable<BookingModel>>(bookingDTOs);
+                return View("AllBookings",bookingModels);
+            }
+
+
         }
 
         [HttpGet]

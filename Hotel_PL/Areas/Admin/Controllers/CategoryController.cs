@@ -43,8 +43,16 @@ namespace Hotel_PL.Areas.Admin.Controllers
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
-            var category = mapper.Map<CategoryDTO,CategoryModel>(categoryService.Get(id));
-            return View(category);
+            try
+            {
+                var category = mapper.Map<CategoryDTO, CategoryModel>(categoryService.Get(id));
+                return View(category);
+            }
+            catch
+            {
+                var Categories = categoryService.GetAllCategories();
+                return View("AllCategories", mapper.Map<IEnumerable<CategoryDTO>, IEnumerable<CategoryModel>>(Categories));
+            }
         }
 
         // GET: CategoryController/Create

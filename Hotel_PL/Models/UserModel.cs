@@ -17,7 +17,7 @@ namespace Hotel_PL.Models
         public string Surname { get; set; }
         [Display(Name = "Адрес")]
         public string Address { get; set; }
-        [Display(Name = "Номер телефона")]
+        [Display(Name = "Телефон")]
         public string PhoneNumber { get; set; }
     }
 }

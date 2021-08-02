@@ -55,7 +55,7 @@ namespace Hotel_BLL.Services
 
             if (!FreeRoomsByDateRange(bookingDTO.BookingDate, bookingDTO.LeaveDate).Any(freeRoom => bookingDTO.room.Id == freeRoom.Id))
                 throw new ArgumentException();
-
+            
             Database.Bookings.Create(Mapper.Map<BookingDTO, Booking>(bookingDTO));
             Database.Save();
         }
@@ -76,7 +76,7 @@ namespace Hotel_BLL.Services
                 Database.Users.Get(bookingDTO.user.Id) == null)
                 throw new NullReferenceException();
 
-            if (!FreeRoomsByDateRange(bookingDTO.BookingDate, bookingDTO.LeaveDate).Any(freeRoom => bookingDTO.room.Id == freeRoom.Id))
+            if (!FreeRoomsByDateRange(bookingDTO.BookingDate, bookingDTO.LeaveDate, bookingDTO.Id).Any(freeRoom => bookingDTO.room.Id == freeRoom.Id))
                 throw new ArgumentException();
 
             Database.Bookings.Update(Mapper.Map<BookingDTO, Booking>(bookingDTO));
@@ -84,7 +84,7 @@ namespace Hotel_BLL.Services
         }
 
 
-        private IEnumerable<RoomDTO> FreeRoomsByDateRange(DateTime firstDate, DateTime secondDate)
+        private IEnumerable<RoomDTO> FreeRoomsByDateRange(DateTime firstDate, DateTime secondDate, int bookingId = 0)
         {
             List<RoomDTO> BookedRoomsForDate = new List<RoomDTO>();
             var bookings = Mapper.Map<IEnumerable<Booking>, IEnumerable<BookingDTO>>(Database.Bookings.GetAll());
@@ -96,7 +96,7 @@ namespace Hotel_BLL.Services
                     booking.BookingDate <= firstDate && booking.LeaveDate > secondDate ||
                     booking.BookingDate >= firstDate && booking.LeaveDate < secondDate)
                 {
-                    BookedRoomsForDate.Add(AllRooms.FirstOrDefault(r => r.Id == booking.room.Id));
+                    BookedRoomsForDate.Add(AllRooms.FirstOrDefault(r => r.Id == booking.room.Id && booking.Id != bookingId));
                 }
             }
 

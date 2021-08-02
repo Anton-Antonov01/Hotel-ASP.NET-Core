@@ -45,8 +45,16 @@ namespace Hotel_PL.Areas.Admin.Controllers
         // GET: GuestController/Details/5
         public ActionResult Details(int id)
         {
-            var guestModel = mapper.Map<UserDTO, UserModel>(guestService.Get(id));
-            return View("GuestDetails", guestModel);
+            try
+            {
+                var guestModel = mapper.Map<UserDTO, UserModel>(guestService.Get(id));
+                return View("GuestDetails", guestModel);
+            }
+            catch
+            {
+                var guestModels = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(guestService.GetAllGuests());
+                return View("AllGuests",guestModels);
+            }
         }
 
 

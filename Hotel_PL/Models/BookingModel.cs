@@ -8,6 +8,7 @@ namespace Hotel_PL.Models
 {
     public class BookingModel
     {
+        [Display(Name = "№ брони")]
         public int Id { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
@@ -21,6 +22,9 @@ namespace Hotel_PL.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [Display(Name = "Дата выезда")]
         public DateTime LeaveDate { get; set; }
+
+        [Display(Name = "Заселение")]
+        public bool Set { get; set; }
 
         [Display(Name = "Стоимость")]
         public decimal TotalPrice { get; set; }

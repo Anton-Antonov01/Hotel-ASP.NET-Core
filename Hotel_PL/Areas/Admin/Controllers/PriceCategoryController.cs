@@ -47,8 +47,17 @@ namespace Hotel_PL.Areas.Admin.Controllers
         // GET: PriceCategoryController/Details/5
         public ActionResult Details(int id)
         {
-            var priceCategory = mapper.Map<PriceCategoryDTO, PriceCategoryModel>(priceCategoryService.Get(id));
-            return View(priceCategory);
+            try
+            {
+                var priceCategory = mapper.Map<PriceCategoryDTO, PriceCategoryModel>(priceCategoryService.Get(id));
+                return View(priceCategory);
+            }
+            catch
+            {
+                var priceCategories = mapper.Map<IEnumerable<PriceCategoryDTO>, IEnumerable<PriceCategoryModel>>(priceCategoryService.GetAllPriceCategories());
+                return View("AllPriceCategories",priceCategories);
+            }
+
         }
 
         // GET: PriceCategoryController/Create
