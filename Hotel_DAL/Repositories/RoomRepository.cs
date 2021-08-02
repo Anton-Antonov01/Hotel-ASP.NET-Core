@@ -26,7 +26,7 @@ namespace Hotel_DAL.Repositories
 
         public Room Get(int id)
         {
-            return db.Rooms.Include(u => u.RoomCategory).Single(r => r.Id == id);
+            return db.Rooms.Include(u => u.RoomCategory).SingleOrDefault(r => r.Id == id);
         }
 
         public void Create(Room room)

@@ -10,15 +10,18 @@ namespace Hotel_PL.ViewModels
     {
         [Display(Name = "Страый пароль")]
         [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Заполните поле")]
         public string OldPassword { get; set; }
 
         [Display(Name = "Новый пароль")]
         [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Заполните поле")]
         public string NewPassword { get; set; }
 
         [Compare("NewPassword", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
         [Display(Name = "Подтвердить пароль")]
+        [Required(ErrorMessage = "Заполните поле")]
         public string ConfirmNewPassword { get; set; }
     }
 }

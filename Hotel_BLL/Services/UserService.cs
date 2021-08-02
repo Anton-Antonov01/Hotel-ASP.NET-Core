@@ -35,7 +35,7 @@ namespace Hotel_BLL.Services
         {
             var user = Database.Users.Get(id);
             if (user == null)
-                throw new ArgumentException();
+                throw new NullReferenceException();
 
             return Mapper.Map<User, UserDTO>(user);
         }
@@ -59,7 +59,7 @@ namespace Hotel_BLL.Services
         public void DeleteGuest(int id)
         {
             if (Database.Users.Get(id) == null)
-                throw new ArgumentException();
+                throw new NullReferenceException();
 
             Database.Users.Delete(id);
             Database.Save();

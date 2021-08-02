@@ -31,7 +31,6 @@ namespace Hotel_PL.Controllers
                     cfg.CreateMap<RoomBookingRequest, BookingDTO>().ReverseMap();
                     cfg.CreateMap<RoomDTO, RoomModel>();
                     cfg.CreateMap<CategoryDTO, CategoryModel>();
-                    cfg.CreateMap<RoomBookingViewRequest, BookingDTO>();
                 }).CreateMapper();
 
             this.bookingService = bookingService;
@@ -66,7 +65,7 @@ namespace Hotel_PL.Controllers
             {
                 try
                 {
-                    BookingDTO bookingDTO = mapper.Map<RoomBookingViewRequest, BookingDTO>(roomBookingViewRequest);
+                    BookingDTO bookingDTO = mapper.Map<RoomBookingRequest, BookingDTO>(roomBookingViewRequest.roomBookingRequest);
                     bookingDTO.LeaveDate = bookingDTO.EnterDate.AddDays(roomBookingViewRequest.roomBookingRequest.NumberOfDays);
                     bookingDTO.user = userService.GetByPhoneNumber(User.Identity.Name);
                     bookingDTO.room = roomService.Get(roomBookingViewRequest.roomId);
@@ -76,9 +75,9 @@ namespace Hotel_PL.Controllers
              
                     return RedirectToAction("AllRooms","Room");
                 }
-                catch
+                catch(ArgumentException ex)
                 {
-                    return RedirectToAction("AllRooms", "Room");
+                    ModelState.AddModelError("roomBookingRequest.BookingDate", "Комната уже забронирована на эти даты");
                 }
             }
             else

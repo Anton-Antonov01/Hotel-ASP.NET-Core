@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_PL.RequestModels
 {
-    public class BookingRequest
+    public class BookingRequest : IValidatableObject
     {
         [Required]
         [DataType(DataType.Date)]
@@ -24,16 +24,10 @@ namespace Hotel_PL.RequestModels
         [DataType(DataType.Date)]
         public DateTime LeaveDate { get; set; }
 
-
-
         [Required]
-        [Display(Name = "Въехал ли гость")]//Скорее всего уберу
+        [Display(Name = "Въехал ли гость")]
         public bool Set { get; set; }
 
-
-        [Required]
-        [Display(Name = "Id гостя")]
-        public int GuestId { get; set; }
         [Required]
         [Display(Name = "Id комнаты")]
         public int RoomId { get; set; }
@@ -41,6 +35,19 @@ namespace Hotel_PL.RequestModels
         [Required]
         [Display(Name = "Id пользователя")]
         public int UserId { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            List<ValidationResult> errors = new List<ValidationResult>();
+
+            if (BookingDate > EnterDate || EnterDate > LeaveDate || BookingDate > LeaveDate)
+            {
+                errors.Add(new ValidationResult("Дата бронирования должна быть раньше, чем дата въезда"));
+            }
+
+            return errors;
+        }
+
 
     }
 

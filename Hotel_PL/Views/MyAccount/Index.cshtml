@@ -36,31 +36,17 @@
     </dl>
 </div>
 
-@*<div style="margin-bottom: 290px" class="btn-group" role="group" aria-label="Basic example">
 
-    <form class="pr-2" asp-controller="MyAccount" asp-action="MyBookings" method="get">
-        <input type="hidden" value="" />
-        <button type="submit" class="btn btn-success">Список бронирований</button>
-    </form>
-    <form class="pr-2" asp-controller="MyAccount" asp-action="ChangePassword" method="get">
-        <input type="hidden" value="" />
-        <button type="submit" class="btn btn-success">Изменить пароль</button>
-    </form>
-    <form class="pr-2" asp-controller="MyAccount" asp-action="Edit" asp-route-id=@Model.Id method="get">
-        <input type="hidden" value="" />
-        <button type="submit" class="btn btn-success">Изменить профиль</button>
-    </form>
-</div>*@
 
 <div class="btn-group mb-5" role="group" aria-label="Basic example">
-    <form class=" pr-2 ButtonsGroup" asp-controller="MyAccount" asp-action="MyBookings" method="get">
+    <form class=" pr-2  buttonn-form" asp-controller="MyAccount" asp-action="MyBookings" method="get">
         <div class="row">
             <div class=" col-lg-12">
                 <button type="submit">Список бронирований</button>
             </div>
         </div>
     </form>
-    <form class="pr-2 ButtonsGroup" asp-controller="MyAccount" asp-action="ChangePassword" method="get">
+    <form class="pr-2  buttonn-form" asp-controller="MyAccount" asp-action="ChangePassword" method="get">
         <div class="row">
             <div class="col-lg-12">
 
@@ -68,7 +54,7 @@
             </div>
         </div>
     </form>
-    <form class="pr-2 ButtonsGroup" asp-controller="MyAccount" asp-action="Edit" asp-route-id=@Model.Id method="get">
+    <form class="pr-2  buttonn-form" asp-controller="MyAccount" asp-action="Edit" asp-route-id=@Model.Id method="get">
         <div class="row">
             <div class="col-lg-12">
                 <button type="submit">Редактировать профиль</button>

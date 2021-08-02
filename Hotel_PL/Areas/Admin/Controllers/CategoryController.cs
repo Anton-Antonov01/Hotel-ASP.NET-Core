@@ -65,10 +65,12 @@ namespace Hotel_PL.Areas.Admin.Controllers
 
                 return RedirectToAction("AllCategories");
             }
-            catch
+            catch(ArgumentException)
             {
-                return View("Error");
+                ModelState.AddModelError("Name", "Категория с таким названием и таким же колличеством кроватей уже существует");
             }
+
+            return View("CreateCategory", categoryRequest);
         }
 
         // GET: CategoryController/Edit/5
@@ -92,10 +94,12 @@ namespace Hotel_PL.Areas.Admin.Controllers
 
                 return RedirectToAction("AllCategories");
             }
-            catch
+            catch (ArgumentException)
             {
-                return View("Error");
+                ModelState.AddModelError("Name", "Категория с таким названием и таким же колличеством кроватей уже существует");
             }
+
+            return View("EditCategory", categoryRequest);
         }
 
         //// GET: CategoryController/Delete/5

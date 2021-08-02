@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_PL.RequestModels
 {
-    public class PriceCategoryRequest
+    public class PriceCategoryRequest : IValidatableObject
     {
         [Required]
         [Display(Name = "Цена")]
@@ -23,5 +23,24 @@ namespace Hotel_PL.RequestModels
         [Required]
         [Display(Name = "Id категории")]
         public int CategoryId { get; set; }
+
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            List<ValidationResult> errors = new List<ValidationResult>();
+
+            if (StartDate > EndDate)
+            {
+                errors.Add(new ValidationResult("Дата начала должна быть раньше, чем дата конца!"));
+            }
+            if (Price < 1)
+            {
+                errors.Add(new ValidationResult("Цена не может равняться нулю и меньше"));
+            }
+
+            return errors;
+        }
+
+
     }
 }

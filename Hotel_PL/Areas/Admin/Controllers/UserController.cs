@@ -49,52 +49,37 @@ namespace Hotel_PL.Areas.Admin.Controllers
             return View("GuestDetails", guestModel);
         }
 
-        // GET: GuestController/Create
-        public ActionResult Create()
-        {
-            return View("CreateGuest");
-        }
-
-        // POST: GuestController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(UserRequest guestRequest)
-        {
-            try
-            {
-                var guestDTO = mapper.Map<UserRequest, UserDTO>(guestRequest);
-                guestService.AddGuest(guestDTO);
-
-                return RedirectToAction("AllGuests");
-            }
-            catch
-            {
-                return View("Error");
-            }
-        }
 
         // GET: GuestController/Edit/5
         public ActionResult Edit(int id)
         {
-            var guestrequest = mapper.Map<UserDTO, UserRequest>(guestService.Get(id));
-            return View("EditGuest", guestrequest);
+            var userRequest = mapper.Map<UserDTO, UserRequest>(guestService.Get(id));
+            return View("EditGuest", userRequest);
         }
 
         // POST: GuestController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, UserRequest guestRequest)
+        public ActionResult Edit(int id, UserRequest userRequest)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var guestDTO = mapper.Map<UserRequest, UserDTO>(guestRequest);
-                guestDTO.Id = id;
-                guestService.UpdateGuest(guestDTO);
-                return RedirectToAction("AllGuests");
+                try
+                {
+                    var UserDTO = mapper.Map<UserRequest, UserDTO>(userRequest);
+                    UserDTO.Id = id;
+                    guestService.UpdateGuest(UserDTO);
+                    return RedirectToAction("AllGuests");
+                }
+                catch (ArgumentException)
+                {
+                    ModelState.AddModelError("PhoneNumber", "Пользователь с таким  номером телефона уже сущесвует");
+                }
+                return View("EditGuest", userRequest);
             }
-            catch
+            else
             {
-                return View("Error");
+                return View("EditGuest", userRequest);
             }
         }
 

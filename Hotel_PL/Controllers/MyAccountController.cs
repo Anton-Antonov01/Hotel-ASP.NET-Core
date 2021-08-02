@@ -115,7 +115,7 @@ namespace Hotel_PL.Controllers
                     {
                         foreach (var error in result.Errors)
                         {
-                            ModelState.AddModelError(string.Empty, error.Description);
+                            ModelState.AddModelError("PhoneNumber", "Пользователь с таким номером телефона уже существует");
                         }
                     }
                 }

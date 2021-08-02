@@ -75,6 +75,50 @@ namespace Hotel_PL.Areas.Admin.Controllers
             return View("BookingDetails", bookingmodel);
         }
 
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Create(BookingRequest bookingRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var bookingDTO = mapper.Map<BookingRequest, BookingDTO>(bookingRequest);
+                    bookingDTO.room = roomService.Get(bookingRequest.RoomId);
+                    bookingDTO.user = guestService.Get(bookingRequest.UserId);
+
+                    bookingService.AddBooking(bookingDTO);
+                    return RedirectToAction("AllBookings");
+
+                }
+                catch (NullReferenceException)
+                {
+                    ModelState.AddModelError("RoomId", "Пользователя или комнаты с таким Id не существует");
+                }
+                catch (ArgumentNullException)
+                {
+                    ModelState.AddModelError("RoomId", "Пользователя или комнаты с таким Id не существует");
+                }
+                catch (ArgumentException)
+                {
+                    ModelState.AddModelError("RoomId", "Для этой комнаты уже существует бронь на эти даты");
+                }
+
+
+                return View(bookingRequest);
+
+            }
+            else
+            {
+                return View(bookingRequest);
+            }
+        }
 
         // GET: BookingController/Edit/5
         public ActionResult Edit(int id)
@@ -89,20 +133,36 @@ namespace Hotel_PL.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, BookingRequest bookingRequest)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var bookingDTO = mapper.Map<BookingRequest, BookingDTO>(bookingRequest);
-                bookingDTO.Id = id;
-                bookingDTO.room = roomService.Get(bookingRequest.RoomId);
-                bookingDTO.user = guestService.Get(bookingRequest.GuestId);
+                try
+                {
+                    var bookingDTO = mapper.Map<BookingRequest, BookingDTO>(bookingRequest);
+                    bookingDTO.Id = id;
+                    bookingDTO.room = roomService.Get(bookingRequest.RoomId);
+                    bookingDTO.user = guestService.Get(bookingRequest.UserId);
 
-                bookingService.UpdateBooking(bookingDTO);
+                    bookingService.UpdateBooking(bookingDTO);
 
-                return RedirectToAction("AllBookings");
+                    return RedirectToAction("AllBookings");
+                }
+                catch (NullReferenceException)
+                {
+                    ModelState.AddModelError("RoomId", "Пользователя или комнаты с таким Id не существует");
+                }
+                catch (ArgumentNullException)
+                {
+                    ModelState.AddModelError("RoomId", "Пользователя или комнаты с таким Id не существует");
+                }
+                catch (ArgumentException)
+                {
+                    ModelState.AddModelError("RoomId", "Для этой комнаты уже существует бронь на эти даты");
+                }
+                return View("EditBooking", bookingRequest);
             }
-            catch
+            else
             {
-                return View("Error");
+                return View("EditBooking", bookingRequest);
             }
         }
 

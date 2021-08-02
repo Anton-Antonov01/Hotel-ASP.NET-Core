@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "RoomIsBooked";
+}
+
+<h1 class="mb-4">Комната уже занята</h1>
+<p>К сожалению, на выбарнные вами даты, комната уже забронирована. Вы можете посмотреть свободные комнаты на интересующие вас даты.</p>
+
+<div class="btn-group mb-5" role="group" aria-label="Basic example">
+    <form class="ml-3 pr-2 buttonn-form" asp-controller="FreeRooms" asp-action="FreeRoomsNow" method="get">
+        <div class="row">
+            <div class=" col-lg-12">
+
+                <button type="submit">Свободные комнаты сейчас</button>
+            </div>
+        </div>
+    </form>
+    <form class="pr-2 buttonn-form" asp-controller="FreeRooms" asp-action="FreeRoomsByDate" method="get">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <button type="submit">Свободные комнаты на дату</button>
+            </div>
+        </div>
+    </form>
+    <form class="pr-2 buttonn-form" asp-controller="FreeRooms" asp-action="FreeRoomsByDateRange" method="get">
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="submit">Свободные комнаты на диапазон дат</button>
+            </div>
+        </div>
+    </form>
+</div>

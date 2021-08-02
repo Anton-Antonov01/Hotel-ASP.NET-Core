@@ -84,10 +84,17 @@ namespace Hotel_PL.Areas.Admin.Controllers
 
                 return RedirectToAction("AllRooms");
             }
-            catch
+            catch (ArgumentNullException ex)
             {
-                return View("Error");
+                ModelState.AddModelError("CategoryId", "Категории с таким Id не существует");
             }
+            catch (ArgumentException ex)
+            {
+                ModelState.AddModelError("Name", "Комната с таким номером уже существует");
+            }
+
+
+            return View("CreateRoom",roomRequest);
         }
 
         // GET: RoomController/Edit/5
@@ -113,10 +120,16 @@ namespace Hotel_PL.Areas.Admin.Controllers
 
                 return RedirectToAction("AllRooms");
             }
-            catch
+            catch (ArgumentNullException ex)
             {
-                return View("Error");
+                ModelState.AddModelError("CategoryId", "Категории с таким Id не существует");
             }
+            catch (ArgumentException ex)
+            {
+                ModelState.AddModelError("Name", "Комната с таким номером уже существует");
+            }
+
+            return View("EditRoom", roomRequest);
         }
 
 

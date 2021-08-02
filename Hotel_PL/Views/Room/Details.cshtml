@@ -35,9 +35,9 @@
         </dd>
     </dl>
 </div>
-<form  class="ButtonsGroup mb-3" asp-controller="RoomBooking" asp-action="DoBooking" method="get">
+<form  class="buttonn-form mb-3" asp-controller="RoomBooking" asp-action="DoBooking" method="get">
     <input type="hidden" value="" />
-    <button name="RoomId" value=@Model.Id type="submit" class="btn btn-success">Забронировать</button>
+    <button name="RoomId" value=@Model.Id type="submit">Забронировать</button>
 </form>
 <div>
     <a class="text-primary" asp-controller="Room" asp-action="AllRooms">Назад</a>

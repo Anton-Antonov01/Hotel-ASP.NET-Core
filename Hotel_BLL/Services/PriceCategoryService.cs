@@ -49,10 +49,7 @@ namespace Hotel_BLL.Services
         public void AddPriceCategory(PriceCategoryDTO priceCategoryDTO)
         {
             if (priceCategoryDTO.Category == null)
-                throw new ArgumentException();
-
-            if (priceCategoryDTO.EndDate < priceCategoryDTO.StartDate)
-                throw new ArgumentException();
+                throw new ArgumentNullException();
 
             if (!CheckValidDatePriceCategory(priceCategoryDTO))
                 throw new ArgumentException();
@@ -63,11 +60,9 @@ namespace Hotel_BLL.Services
 
         public void UpdatePriceCategory(PriceCategoryDTO priceCategoryDTO)
         {
-            if (priceCategoryDTO.EndDate < priceCategoryDTO.StartDate)
-                throw new ArgumentException();
 
             if (priceCategoryDTO.Category == null)
-                throw new ArgumentException();
+                throw new ArgumentNullException();
 
             if (!CheckValidDatePriceCategory(priceCategoryDTO))
                 throw new ArgumentException();

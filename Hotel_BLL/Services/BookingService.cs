@@ -51,7 +51,7 @@ namespace Hotel_BLL.Services
         {
             if (Database.Rooms.Get(bookingDTO.room.Id) == null ||
                 Database.Users.Get(bookingDTO.user.Id) == null)
-                throw new ArgumentException();
+                throw new ArgumentNullException();
 
             if (!FreeRoomsByDateRange(bookingDTO.BookingDate, bookingDTO.LeaveDate).Any(freeRoom => bookingDTO.room.Id == freeRoom.Id))
                 throw new ArgumentException();
@@ -74,7 +74,7 @@ namespace Hotel_BLL.Services
             if (Database.Bookings.Get(bookingDTO.Id) == null ||
                 Database.Rooms.Get(bookingDTO.room.Id) == null ||
                 Database.Users.Get(bookingDTO.user.Id) == null)
-                throw new ArgumentException();
+                throw new NullReferenceException();
 
             if (!FreeRoomsByDateRange(bookingDTO.BookingDate, bookingDTO.LeaveDate).Any(freeRoom => bookingDTO.room.Id == freeRoom.Id))
                 throw new ArgumentException();
@@ -122,7 +122,7 @@ namespace Hotel_BLL.Services
 
                 if (PriceCategoryInterval.IsInclude(BookingInterval))
                 {
-                    TotalPrice += priceCategory.Price * (PriceCategoryInterval.DaysIncludes(BookingInterval) -1);
+                    TotalPrice += priceCategory.Price * (PriceCategoryInterval.DaysIncludes(BookingInterval));
                 }
             }
 

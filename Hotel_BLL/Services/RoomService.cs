@@ -43,7 +43,7 @@ namespace Hotel_BLL.Services
         {
             var room = Database.Rooms.Get(id);
             if (room == null)
-                throw new ArgumentException();
+                throw new NullReferenceException();
 
             return Mapper.Map<Room, RoomDTO>(room);
         }
@@ -51,7 +51,7 @@ namespace Hotel_BLL.Services
         public void AddRoom(RoomDTO roomDTO)
         {
             if (roomDTO.RoomCategory == null)
-                throw new ArgumentException();
+                throw new ArgumentNullException();
             if (Database.Rooms.GetAll().Any(r => r.Name == roomDTO.Name))
                 throw new ArgumentException();
 
@@ -62,7 +62,7 @@ namespace Hotel_BLL.Services
         public void DeleteRoom(int id)
         {
             if (Database.Rooms.Get(id) == null)
-                throw new ArgumentException();
+                throw new NullReferenceException();
 
             Database.Rooms.Delete(id);
             Database.Save();
@@ -71,7 +71,7 @@ namespace Hotel_BLL.Services
         public void UpdateRoom(RoomDTO roomDTO)
         {
             if (roomDTO.RoomCategory == null || Database.Rooms.Get(roomDTO.Id) == null)
-                throw new ArgumentException();
+                throw new ArgumentNullException();
             if (Database.Rooms.GetAll().Any(r => r.Name == roomDTO.Name))
                 throw new ArgumentException();
 

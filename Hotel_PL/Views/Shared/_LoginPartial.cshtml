@@ -7,6 +7,12 @@
     <li class="nav-item right">
         <a class="nav-link text-dark" asp-area="default" asp-controller="Account" asp-action="Logout">Выйти</a>
     </li>
+    <li>
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Панель администратора</a>
+        }
+    </li>
 </ul>
    
 }

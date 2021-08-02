@@ -63,18 +63,31 @@ namespace Hotel_PL.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(PriceCategoryRequest priceCategoryRequest)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var PriceCatDTO = mapper.Map<PriceCategoryRequest, PriceCategoryDTO>(priceCategoryRequest);
-                PriceCatDTO.Category = categoryService.Get(priceCategoryRequest.CategoryId);
+                try
+                {
+                    var PriceCatDTO = mapper.Map<PriceCategoryRequest, PriceCategoryDTO>(priceCategoryRequest);
+                    PriceCatDTO.Category = categoryService.Get(priceCategoryRequest.CategoryId);
 
-                priceCategoryService.AddPriceCategory(PriceCatDTO);
+                    priceCategoryService.AddPriceCategory(PriceCatDTO);
 
-                return RedirectToAction("AllPriceCategories");
+                    return RedirectToAction("AllPriceCategories");
+                }
+                catch (ArgumentNullException)
+                {
+                    ModelState.AddModelError("CategoryId", "Такой категории не существует");
+                }
+                catch (ArgumentException)
+                {
+                    ModelState.AddModelError("StartDate", "Даты действия цены для категории пересекаются с уже сущесвующей");
+                }
+
+                return View(priceCategoryRequest);
             }
-            catch
+            else
             {
-                return View("Error");
+                return View(priceCategoryRequest);
             }
         }
 
@@ -89,18 +102,30 @@ namespace Hotel_PL.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, PriceCategoryRequest priceCategoryRequest)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var PriceCatDTO = mapper.Map<PriceCategoryRequest, PriceCategoryDTO>(priceCategoryRequest);
-                PriceCatDTO.Category = categoryService.Get(priceCategoryRequest.CategoryId);
-                PriceCatDTO.Id = id;
-                priceCategoryService.UpdatePriceCategory(PriceCatDTO);
+                try
+                {
+                    var PriceCatDTO = mapper.Map<PriceCategoryRequest, PriceCategoryDTO>(priceCategoryRequest);
+                    PriceCatDTO.Category = categoryService.Get(priceCategoryRequest.CategoryId);
+                    PriceCatDTO.Id = id;
+                    priceCategoryService.UpdatePriceCategory(PriceCatDTO);
 
-                return RedirectToAction("AllPriceCategories");
+                    return RedirectToAction("AllPriceCategories");
+                }
+                catch (ArgumentNullException)
+                {
+                    ModelState.AddModelError("CategoryId", "Такой категории не существует");
+                }
+                catch (ArgumentException)
+                {
+                    ModelState.AddModelError("StartDate", "Даты действия цены для категории пересекаются с уже сущесвующей");
+                }
+                return View(priceCategoryRequest);
             }
-            catch
+            else
             {
-                return View("Error");
+                return View(priceCategoryRequest);
             }
         }
 
