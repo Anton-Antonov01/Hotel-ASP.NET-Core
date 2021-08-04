@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_PL.RequestModels
 {
+    [Display(Name = "Category")]
     public class CategoryRequest
     {
         [Required]
@@ -16,5 +17,11 @@ namespace Hotel_PL.RequestModels
         public int Bed { get; set; }
         [Display(Name = "Описание")]
         public string Description { get; set; }
+
+
+        public override string ToString()
+        {
+            return $"Name: {Name}, Bed: {Bed}, Description: {Description}";
+        }
     }
 }

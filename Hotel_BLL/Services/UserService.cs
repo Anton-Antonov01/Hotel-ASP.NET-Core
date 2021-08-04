@@ -24,11 +24,11 @@ namespace Hotel_BLL.Services
                 ).CreateMapper();
         }
 
-        public IEnumerable<UserDTO> GetAllGuests()
+        public IEnumerable<UserDTO> GetAllUsers()
         {
-            var guests = Database.Users.GetAll();
+            var users = Database.Users.GetAll();
 
-            return Mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(guests);
+            return Mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
         }
 
         public UserDTO Get(int id)
@@ -47,16 +47,8 @@ namespace Hotel_BLL.Services
             return Mapper.Map<User, UserDTO>(user);
         }
 
-        public void AddGuest(UserDTO guestDTO)
-        {
-            if (Database.Users.GetAll().Any(g => g.PhoneNumber == guestDTO.PhoneNumber))
-                throw new ArgumentException();
 
-            Database.Users.Create(Mapper.Map<UserDTO, User>(guestDTO));
-            Database.Save();
-        }
-
-        public void DeleteGuest(int id)
+        public void DeleteUser(int id)
         {
             if (Database.Users.Get(id) == null)
                 throw new NullReferenceException();
@@ -65,15 +57,15 @@ namespace Hotel_BLL.Services
             Database.Save();
         }
 
-        public void UpdateGuest(UserDTO guestDTO)
+        public void UpdateUser(UserDTO userDTO)
         {
-            var guest = Database.Users.Get(guestDTO.Id);
-            if (guest == null)
+            var user = Database.Users.Get(userDTO.Id);
+            if (user == null)
                 throw new NullReferenceException();
-            if (Database.Users.GetAll().Any(g => g.PhoneNumber == guestDTO.PhoneNumber && g.Id != guestDTO.Id))
+            if (Database.Users.GetAll().Any(g => g.PhoneNumber == userDTO.PhoneNumber && g.Id != userDTO.Id))
                 throw new ArgumentException();
 
-            Database.Users.Update(Mapper.Map<UserDTO, User>(guestDTO));
+            Database.Users.Update(Mapper.Map<UserDTO, User>(userDTO));
             Database.Save();
         }
     }

@@ -47,7 +47,7 @@ namespace Hotel_BLL.Services
             return Mapper.Map<IEnumerable<Booking>, IEnumerable<BookingDTO>>(bookings);
         }
 
-        public void AddBooking(BookingDTO bookingDTO)
+        public int AddBooking(BookingDTO bookingDTO)
         {
             if (Database.Rooms.Get(bookingDTO.room.Id) == null ||
                 Database.Users.Get(bookingDTO.user.Id) == null)
@@ -56,8 +56,9 @@ namespace Hotel_BLL.Services
             if (!FreeRoomsByDateRange(bookingDTO.BookingDate, bookingDTO.LeaveDate).Any(freeRoom => bookingDTO.room.Id == freeRoom.Id))
                 throw new ArgumentException();
             
-            Database.Bookings.Create(Mapper.Map<BookingDTO, Booking>(bookingDTO));
-            Database.Save();
+            
+            return Database.Bookings.Create(Mapper.Map<BookingDTO, Booking>(bookingDTO));
+            
         }
 
         public void DeleteBooking(int id)

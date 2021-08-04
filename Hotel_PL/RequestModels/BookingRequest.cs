@@ -48,6 +48,10 @@ namespace Hotel_PL.RequestModels
             return errors;
         }
 
+        public override string ToString()
+        {
+            return $"BookingDate: {BookingDate}, EnterDate: {EnterDate}, LeaveDate: {LeaveDate}, Set: {Set}, RoomId: {RoomId}, UserId: {UserId}";
+        }
 
     }
 

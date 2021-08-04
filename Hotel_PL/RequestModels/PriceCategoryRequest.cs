@@ -41,6 +41,10 @@ namespace Hotel_PL.RequestModels
             return errors;
         }
 
+        public override string ToString()
+        {
+            return $"Price: {Price}, StartDate: {StartDate}, EndDate: {EndDate}, CategoryId: {CategoryId}";
+        }
 
     }
 }

@@ -10,10 +10,10 @@ namespace Hotel_BLL.Interfaces
 {
     public interface IAccountService
     {
-        public Task Register(RegistrationModelDTO regModel);
+        //public Task Register(RegistrationModelDTO regModel);
 
-        public Task<SignInResult> Login(LoginModelDTO loginModel);
+        //public Task<SignInResult> Login(LoginModelDTO loginModel);
 
-        public void Logout();
+        //public void Logout();
     }
 }

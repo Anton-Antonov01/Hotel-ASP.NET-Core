@@ -20,16 +20,18 @@ namespace Hotel_PL.Areas.Admin.Controllers
         IMapper mapper;
         IBookingService bookingService;
         IRoomService roomService;
-        IUserService guestService;
+        IUserService userService;
         IPriceCategoryService priceCategoryService;
+        ILogService logService;
 
 
-        public BookingController(IBookingService bookingService, IRoomService roomService, IUserService guestService, IPriceCategoryService priceCategoryService)
+        public BookingController(IBookingService bookingService, IRoomService roomService, IUserService userService, IPriceCategoryService priceCategoryService, ILogService logService)
         {
             this.bookingService = bookingService;
-            this.guestService = guestService;
+            this.userService = userService;
             this.roomService = roomService;
             this.priceCategoryService = priceCategoryService;
+            this.logService = logService;
 
             mapper = new MapperConfiguration(
                 cfg =>
@@ -55,6 +57,7 @@ namespace Hotel_PL.Areas.Admin.Controllers
                         }
                     });
                     cfg.CreateMap<CategoryDTO, CategoryModel>();
+                    cfg.CreateMap<LogDataModel, LogDataDTO>();
                 }).CreateMapper();
         }
 
@@ -111,9 +114,23 @@ namespace Hotel_PL.Areas.Admin.Controllers
                 {
                     var bookingDTO = mapper.Map<BookingRequest, BookingDTO>(bookingRequest);
                     bookingDTO.room = roomService.Get(bookingRequest.RoomId);
-                    bookingDTO.user = guestService.Get(bookingRequest.UserId);
+                    bookingDTO.user = userService.Get(bookingRequest.UserId);
 
-                    bookingService.AddBooking(bookingDTO);
+                    var bookingId = bookingService.AddBooking(bookingDTO);
+
+
+                    var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                    LogDataModel logDataModel = new LogDataModel()
+                    {
+                        AdminId = adminId,
+                        EntityId = bookingId,
+                        EntityName = "Booking",
+                        ObjectState = bookingRequest.ToString(),
+                    };
+
+                    logService.AddCreateLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
                     return RedirectToAction("AllBookings");
 
                 }
@@ -160,9 +177,22 @@ namespace Hotel_PL.Areas.Admin.Controllers
                     var bookingDTO = mapper.Map<BookingRequest, BookingDTO>(bookingRequest);
                     bookingDTO.Id = id;
                     bookingDTO.room = roomService.Get(bookingRequest.RoomId);
-                    bookingDTO.user = guestService.Get(bookingRequest.UserId);
+                    bookingDTO.user = userService.Get(bookingRequest.UserId);
 
                     bookingService.UpdateBooking(bookingDTO);
+
+                    var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                    LogDataModel logDataModel = new LogDataModel()
+                    {
+                        AdminId = adminId,
+                        EntityId = id,
+                        EntityName = "Booking",
+                        ObjectState = bookingRequest.ToString(),
+                    };
+
+                    logService.AddEditLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
 
                     return RedirectToAction("AllBookings");
                 }
@@ -192,7 +222,22 @@ namespace Hotel_PL.Areas.Admin.Controllers
         {
             try
             {
+                var booking = userService.Get(id);
                 bookingService.DeleteBooking(id);
+
+
+                var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                LogDataModel logDataModel = new LogDataModel()
+                {
+                    AdminId = adminId,
+                    EntityId = id,
+                    EntityName = "Booking",
+                    ObjectState = booking.ToString(),
+                };
+
+                logService.AddDeleteLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
                 return RedirectToAction("AllBookings");
             }
             catch

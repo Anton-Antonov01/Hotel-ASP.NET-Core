@@ -22,6 +22,7 @@ namespace Hotel_DAL.EF
         internal DbSet<User> Users { get; set; }
         internal DbSet<Booking> Bookings { get; set; }
         internal DbSet<PriceCategory> PriceCategories { get; set; }
+        internal DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

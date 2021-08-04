@@ -18,54 +18,50 @@ namespace Hotel_PL.Areas.Admin.Controllers
     public class UserController : Controller
     {
         IMapper mapper;
-        IUserService guestService;
+        IUserService userService;
+        ILogService logService;
 
-        public UserController(IUserService guestService)
+        public UserController(IUserService userService, ILogService logService)
         {
-            this.guestService = guestService;
+            this.userService = userService;
+            this.logService = logService;
 
             mapper = new MapperConfiguration(
                 cfg =>
                 {
                     cfg.CreateMap<UserDTO, UserModel>();
                     cfg.CreateMap<UserRequest, UserDTO>().ReverseMap();
+                    cfg.CreateMap<LogDataModel, LogDataDTO>();
                 }).CreateMapper();
         }
 
 
-
-
-        // GET: GuestController
         public ActionResult AllGuests()
         {
-            var guestModels = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(guestService.GetAllGuests());
+            var guestModels = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(userService.GetAllUsers());
             return View(guestModels);
         }
 
-        // GET: GuestController/Details/5
         public ActionResult Details(int id)
         {
             try
             {
-                var guestModel = mapper.Map<UserDTO, UserModel>(guestService.Get(id));
+                var guestModel = mapper.Map<UserDTO, UserModel>(userService.Get(id));
                 return View("GuestDetails", guestModel);
             }
             catch
             {
-                var guestModels = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(guestService.GetAllGuests());
+                var guestModels = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(userService.GetAllUsers());
                 return View("AllGuests",guestModels);
             }
         }
 
-
-        // GET: GuestController/Edit/5
         public ActionResult Edit(int id)
         {
-            var userRequest = mapper.Map<UserDTO, UserRequest>(guestService.Get(id));
+            var userRequest = mapper.Map<UserDTO, UserRequest>(userService.Get(id));
             return View("EditGuest", userRequest);
         }
 
-        // POST: GuestController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, UserRequest userRequest)
@@ -76,7 +72,21 @@ namespace Hotel_PL.Areas.Admin.Controllers
                 {
                     var UserDTO = mapper.Map<UserRequest, UserDTO>(userRequest);
                     UserDTO.Id = id;
-                    guestService.UpdateGuest(UserDTO);
+                    userService.UpdateUser(UserDTO);
+
+                    var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                    LogDataModel logDataModel = new LogDataModel()
+                    {
+                        AdminId = adminId,
+                        EntityId = id,
+                        EntityName = "User",
+                        ObjectState = userRequest.ToString(),
+                    };
+
+                    logService.AddEditLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
+
                     return RedirectToAction("AllGuests");
                 }
                 catch (ArgumentException)
@@ -91,13 +101,27 @@ namespace Hotel_PL.Areas.Admin.Controllers
             }
         }
 
-        // GET: GuestController/Delete/5
         [HttpGet]
         public ActionResult Delete(int id)
         {
             try
             {
-                guestService.DeleteGuest(id);
+                var user = userService.Get(id);
+                userService.DeleteUser(id);
+
+                var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                LogDataModel logDataModel = new LogDataModel()
+                {
+                    AdminId = adminId,
+                    EntityId = id,
+                    EntityName = "User",
+                    ObjectState = user.ToString(),
+                };
+
+                logService.AddDeleteLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
+
                 return RedirectToAction("AllGuests");
             }
             catch

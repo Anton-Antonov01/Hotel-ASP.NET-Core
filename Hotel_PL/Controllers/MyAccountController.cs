@@ -53,7 +53,7 @@ namespace Hotel_PL.Controllers
         // GET: MyAccountController
         public ActionResult Index()
         {
-            var user = userService.GetAllGuests().SingleOrDefault(u => u.PhoneNumber == User.Identity.Name);
+            var user = userService.GetAllUsers().SingleOrDefault(u => u.PhoneNumber == User.Identity.Name);
 
             return View(mapper.Map<UserDTO,UserModel>(user));
         }
@@ -66,25 +66,6 @@ namespace Hotel_PL.Controllers
             var user = userService.GetByPhoneNumber(User.Identity.Name);
             return View(mapper.Map<UserDTO,UserRequest>(user));
         }
-
-        // POST: MyAccountController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, UserRequest user)
-        //{
-        //    try
-        //    {
-        //        var userDTO = mapper.Map<UserRequest, UserDTO>(user);
-        //        userDTO.Id = id;
-        //        userService.UpdateGuest(userDTO);
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //}
 
         [HttpPost]
         public async Task<IActionResult> Edit(UserRequest model)

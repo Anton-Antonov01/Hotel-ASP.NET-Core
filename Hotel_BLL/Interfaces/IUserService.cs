@@ -9,13 +9,12 @@ namespace Hotel_BLL.Interfaces
 {
     public interface IUserService
     {
-        IEnumerable<UserDTO> GetAllGuests();
+        IEnumerable<UserDTO> GetAllUsers();
         UserDTO Get(int id);
 
         UserDTO GetByPhoneNumber(string phone);
 
-        void AddGuest(UserDTO guestDTO);
-        void DeleteGuest(int id);
-        void UpdateGuest(UserDTO guestDTO);
+        void DeleteUser(int id);
+        void UpdateUser(UserDTO guestDTO);
     }
 }

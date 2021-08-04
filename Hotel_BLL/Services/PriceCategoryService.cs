@@ -46,7 +46,7 @@ namespace Hotel_BLL.Services
 
         }
 
-        public void AddPriceCategory(PriceCategoryDTO priceCategoryDTO)
+        public int AddPriceCategory(PriceCategoryDTO priceCategoryDTO)
         {
             if (priceCategoryDTO.Category == null)
                 throw new ArgumentNullException();
@@ -54,8 +54,7 @@ namespace Hotel_BLL.Services
             if (!CheckValidDatePriceCategory(priceCategoryDTO))
                 throw new ArgumentException();
 
-            Database.PriceCategories.Create(Mapper.Map<PriceCategoryDTO, PriceCategory>(priceCategoryDTO));
-            Database.Save();
+            return Database.PriceCategories.Create(Mapper.Map<PriceCategoryDTO, PriceCategory>(priceCategoryDTO));
         }
 
         public void UpdatePriceCategory(PriceCategoryDTO priceCategoryDTO)

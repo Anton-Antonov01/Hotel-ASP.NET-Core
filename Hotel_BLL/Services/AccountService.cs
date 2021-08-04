@@ -31,40 +31,40 @@ namespace Hotel_BLL.Services
             this.roleManager = roleManager;
         }
 
-        public async Task Register(RegistrationModelDTO regModel)
-        {
-            var user = mapper.Map<RegistrationModelDTO, User>(regModel);
-            user.UserName = regModel.PhoneNumber;
-            var result = await userManager.CreateAsync(user, regModel.Password);
+        //public async Task Register(RegistrationModelDTO regModel)
+        //{
+        //    var user = mapper.Map<RegistrationModelDTO, User>(regModel);
+        //    user.UserName = regModel.PhoneNumber;
+        //    var result = await userManager.CreateAsync(user, regModel.Password);
 
-            var UserRoles = from r in roleManager.Roles.ToList()
-                           where r.Name == "Guest"
-                           select r.Name;
+        //    var UserRoles = from r in roleManager.Roles.ToList()
+        //                   where r.Name == "Guest"
+        //                   select r.Name;
 
 
-            await userManager.AddToRolesAsync(user, UserRoles);
+        //    await userManager.AddToRolesAsync(user, UserRoles);
 
-            if (result.Succeeded)
-            {
+        //    if (result.Succeeded)
+        //    {
 
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentException();
+        //    }
 
-        }
+        //}
 
-        public async Task<SignInResult> Login(LoginModelDTO loginModel)
-        {
-            var result =  await signInManager.PasswordSignInAsync(loginModel.PhoneNumber, loginModel.Password, loginModel.RememberMe, false);
-            return result;
-        }
+        //public async Task<SignInResult> Login(LoginModelDTO loginModel)
+        //{
+        //    var result =  await signInManager.PasswordSignInAsync(loginModel.PhoneNumber, loginModel.Password, loginModel.RememberMe, false);
+        //    return result;
+        //}
 
-        public void Logout()
-        {
-            throw new NotImplementedException();
-        }
+        //public void Logout()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
     }

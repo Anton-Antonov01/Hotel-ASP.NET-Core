@@ -13,5 +13,10 @@ namespace Hotel_BLL.DTO
         public CategoryDTO RoomCategory { get; set; }
         public bool Active { get; set; }
 
+        public override string ToString()
+        {
+            return $"Name: {Name}, CategoryId {RoomCategory.Id}, Active {Active}";
+        }
+
     }
 }

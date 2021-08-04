@@ -28,9 +28,12 @@ namespace Hotel_DAL.Repositories
             return db.Users.Find(id);
         }
 
-        public void Create(User user)
+        public int Create(User user)
         {
             db.Users.Add(user);
+            db.SaveChanges();
+
+            return user.Id;
         }
 
         public void Delete(int id)

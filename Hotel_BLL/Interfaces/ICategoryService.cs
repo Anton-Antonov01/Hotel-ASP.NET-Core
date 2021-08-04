@@ -11,7 +11,7 @@ namespace Hotel_BLL.Interfaces
     {
         IEnumerable<CategoryDTO> GetAllCategories();
         CategoryDTO Get(int id);
-        void AddCategory(CategoryDTO categoryDTO);
+        int AddCategory(CategoryDTO categoryDTO);
         void DeleteCategory(int id);
         void UpdateCategory(CategoryDTO categoryDTO);
     }

@@ -29,13 +29,16 @@ namespace Hotel_DAL.Repositories
             return db.Bookings.Include(u => u.user).Include(u => u.room).ThenInclude(r => r.RoomCategory).ToList();
         }
 
-        public void Create(Booking booking)
+        public int Create(Booking booking)
         {
 
             booking.user = db.Users.Find(booking.user.Id); 
             booking.room = db.Rooms.Find(booking.room.Id);
 
             db.Bookings.Add(booking);
+            db.SaveChanges();
+
+            return booking.Id;
         }
 
         public void Delete(int id)

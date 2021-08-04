@@ -40,13 +40,12 @@ namespace Hotel_BLL.Services
             return Mapper.Map<IEnumerable<Category>, List<CategoryDTO>>(categories);
         }
 
-        public void AddCategory(CategoryDTO categoryDTO)
+        public int AddCategory(CategoryDTO categoryDTO)
         {
             if(Database.Categories.GetAll().Any(c=> c.Name == categoryDTO.Name && c.Bed == categoryDTO.Bed))
                 throw new ArgumentException();
 
-            Database.Categories.Create(Mapper.Map<CategoryDTO, Category>(categoryDTO));
-            Database.Save();
+            return Database.Categories.Create(Mapper.Map<CategoryDTO, Category>(categoryDTO));
         }
 
         public void DeleteCategory(int id)
@@ -62,7 +61,7 @@ namespace Hotel_BLL.Services
         {
             if (Database.Categories.Get(categoryDTO.Id) == null)
                 throw new ArgumentNullException();
-            if (Database.Categories.GetAll().Any(c => c.Name == categoryDTO.Name && c.Bed == categoryDTO.Bed))
+            if (Database.Categories.GetAll().Any(c => c.Name == categoryDTO.Name && c.Bed == categoryDTO.Bed && c.Id != categoryDTO.Id))
                 throw new ArgumentException();
 
             Database.Categories.Update(Mapper.Map<CategoryDTO, Category>(categoryDTO));

@@ -20,11 +20,15 @@ namespace Hotel_PL.Areas.Admin.Controllers
         IMapper mapper;
         IPriceCategoryService priceCategoryService;
         ICategoryService categoryService;
+        IUserService userService;
+        ILogService logService;
 
-        public PriceCategoryController(IPriceCategoryService priceCategoryService, ICategoryService categoryService)
+        public PriceCategoryController(IPriceCategoryService priceCategoryService, ICategoryService categoryService, IUserService userService, ILogService logService)
         {
+            this.logService = logService;
             this.priceCategoryService = priceCategoryService;
             this.categoryService = categoryService;
+            this.userService = userService;
 
             mapper = new MapperConfiguration(
                 cfg =>
@@ -32,6 +36,7 @@ namespace Hotel_PL.Areas.Admin.Controllers
                     cfg.CreateMap<PriceCategoryDTO, PriceCategoryModel>();
                     cfg.CreateMap<PriceCategoryDTO, PriceCategoryRequest>().ReverseMap();
                     cfg.CreateMap<CategoryDTO, CategoryModel>().ReverseMap();
+                    cfg.CreateMap<LogDataModel, LogDataDTO>();
                 }).CreateMapper();
         }
 
@@ -79,7 +84,22 @@ namespace Hotel_PL.Areas.Admin.Controllers
                     var PriceCatDTO = mapper.Map<PriceCategoryRequest, PriceCategoryDTO>(priceCategoryRequest);
                     PriceCatDTO.Category = categoryService.Get(priceCategoryRequest.CategoryId);
 
-                    priceCategoryService.AddPriceCategory(PriceCatDTO);
+                    var priceCatId = priceCategoryService.AddPriceCategory(PriceCatDTO);
+
+
+                    var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                    LogDataModel logDataModel = new LogDataModel()
+                    {
+                        AdminId = adminId,
+                        EntityId = priceCatId,
+                        EntityName = "PriceCategory",
+                        ObjectState = priceCategoryRequest.ToString(),
+                    };
+
+                    logService.AddCreateLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
+
 
                     return RedirectToAction("AllPriceCategories");
                 }
@@ -120,6 +140,19 @@ namespace Hotel_PL.Areas.Admin.Controllers
                     PriceCatDTO.Id = id;
                     priceCategoryService.UpdatePriceCategory(PriceCatDTO);
 
+                    var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                    LogDataModel logDataModel = new LogDataModel()
+                    {
+                        AdminId = adminId,
+                        EntityId = id,
+                        EntityName = "PriceCategory",
+                        ObjectState = priceCategoryRequest.ToString(),
+                    };
+
+                    logService.AddEditLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
+
                     return RedirectToAction("AllPriceCategories");
                 }
                 catch (ArgumentNullException)
@@ -141,7 +174,23 @@ namespace Hotel_PL.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
+            var priceCat = priceCategoryService.Get(id);
             priceCategoryService.DeletePriceCategory(id);
+
+
+            var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+            LogDataModel logDataModel = new LogDataModel()
+            {
+                AdminId = adminId,
+                EntityId = id,
+                EntityName = "PriceCategory",
+                ObjectState = priceCat.ToString(),
+            };
+
+            logService.AddDeleteLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
+
             return RedirectToAction("AllPriceCategories");
         }
     }

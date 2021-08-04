@@ -19,16 +19,21 @@ namespace Hotel_PL.Areas.Admin.Controllers
     {
         IMapper mapper;
         ICategoryService categoryService;
-        public CategoryController(ICategoryService categoryService)
+        ILogService logService;
+        IUserService userService;
+        public CategoryController(ICategoryService categoryService, ILogService logService, IUserService userService)
         {
             mapper = new MapperConfiguration(
                 cfg =>
                 {
                     cfg.CreateMap<CategoryDTO, CategoryModel>();
                     cfg.CreateMap<CategoryRequest, CategoryDTO>().ReverseMap();
+                    cfg.CreateMap<LogDataModel, LogDataDTO>();
                 }).CreateMapper();
 
             this.categoryService = categoryService;
+            this.logService = logService;
+            this.userService = userService;
         }
 
 
@@ -68,8 +73,18 @@ namespace Hotel_PL.Areas.Admin.Controllers
         {
             try
             {
-                categoryService.AddCategory(mapper.Map<CategoryRequest, CategoryDTO>(categoryRequest));
+                var categoryId = categoryService.AddCategory(mapper.Map<CategoryRequest, CategoryDTO>(categoryRequest));
+                var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
 
+                LogDataModel logDataModel = new LogDataModel()
+                {
+                    AdminId = adminId,
+                    EntityId = categoryId,
+                    EntityName = "Category",
+                    ObjectState = categoryRequest.ToString(),
+                };
+
+                logService.AddCreateLog(mapper.Map<LogDataModel,LogDataDTO>(logDataModel));
 
                 return RedirectToAction("AllCategories");
             }
@@ -100,6 +115,20 @@ namespace Hotel_PL.Areas.Admin.Controllers
 
                 categoryService.UpdateCategory(categoryDTO);
 
+                var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                LogDataModel logDataModel = new LogDataModel()
+                {
+                    AdminId = adminId,
+                    EntityId = id,
+                    EntityName = "Category",
+                    ObjectState = categoryRequest.ToString(),
+                };
+
+                logService.AddEditLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
+
+
                 return RedirectToAction("AllCategories");
             }
             catch (ArgumentException)
@@ -110,19 +139,28 @@ namespace Hotel_PL.Areas.Admin.Controllers
             return View("EditCategory", categoryRequest);
         }
 
-        //// GET: CategoryController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: CategoryController/Delete/5
         [HttpGet]
         public ActionResult Delete(int id)
         {
             try
             {
+                var Category = categoryService.Get(id);
                 categoryService.DeleteCategory(id);
+
+
+                var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+
+                LogDataModel logDataModel = new LogDataModel()
+                {
+                    AdminId = adminId,
+                    EntityId = id,
+                    EntityName = "Category",
+                    ObjectState = Category.ToString(),
+                };
+
+                logService.AddDeleteLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
                 return RedirectToAction("AllCategories");
             }
             catch

@@ -29,10 +29,13 @@ namespace Hotel_DAL.Repositories
             return db.PriceCategories.Include(u=> u.Category);
         }
 
-        public void Create(PriceCategory priceCategory)
+        public int Create(PriceCategory priceCategory)
         {
             priceCategory.Category = db.Categories.Find(priceCategory.Category.Id);
             db.PriceCategories.Add(priceCategory);
+            db.SaveChanges();
+            return priceCategory.Id;
+
         }
 
         public void Delete(int id)

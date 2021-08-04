@@ -13,5 +13,10 @@ namespace Hotel_BLL.DTO
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public CategoryDTO Category { get; set; }
+
+        public override string ToString()
+        {
+            return $"Price: {Price}, StartDate: {StartDate}, EndDate: {EndDate}, CategoryId: {Category.Id}";
+        }
     }
 }

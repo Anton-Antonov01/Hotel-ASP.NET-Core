@@ -48,15 +48,14 @@ namespace Hotel_BLL.Services
             return Mapper.Map<Room, RoomDTO>(room);
         }
 
-        public void AddRoom(RoomDTO roomDTO)
+        public int AddRoom(RoomDTO roomDTO)
         {
             if (roomDTO.RoomCategory == null)
                 throw new ArgumentNullException();
             if (Database.Rooms.GetAll().Any(r => r.Name == roomDTO.Name))
                 throw new ArgumentException();
 
-            Database.Rooms.Create(Mapper.Map<RoomDTO, Room>(roomDTO));
-            Database.Save();
+            return Database.Rooms.Create(Mapper.Map<RoomDTO, Room>(roomDTO));
         }
 
         public void DeleteRoom(int id)

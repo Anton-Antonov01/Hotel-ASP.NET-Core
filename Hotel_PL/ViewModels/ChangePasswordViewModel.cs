@@ -8,7 +8,7 @@ namespace Hotel_PL.ViewModels
 {
     public class ChangePasswordViewModel
     {
-        [Display(Name = "Страый пароль")]
+        [Display(Name = "Старый пароль")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Заполните поле")]
         public string OldPassword { get; set; }

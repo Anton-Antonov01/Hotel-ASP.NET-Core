@@ -44,9 +44,6 @@ namespace Hotel_PL.Controllers
                     });
                     cfg.CreateMap<CategoryDTO, CategoryModel>();
                 }).CreateMapper();
-
-
- 
         }
 
         [HttpGet]

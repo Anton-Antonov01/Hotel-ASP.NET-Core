@@ -17,6 +17,7 @@ namespace Hotel_DAL.Repositories
         private UserRepository userRepository;
         private BookingRepository bookingRepository;
         private PriceCategoryRepository priceCategoryRepository;
+        private LogRepository logRepository;
 
 
         public EFWorkUnit(HotelContext context)
@@ -83,6 +84,19 @@ namespace Hotel_DAL.Repositories
                 return priceCategoryRepository;
             }
         }
+
+        public ILogRepository Logs
+        {
+            get
+            {
+                if (logRepository == null)
+                {
+                    logRepository = new LogRepository(db);
+                }
+                return logRepository;
+            }
+        }
+
         public void Save()
         {
             db.SaveChanges();

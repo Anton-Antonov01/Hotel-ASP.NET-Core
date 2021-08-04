@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel_DAL.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20210718142039_mig6")]
-    partial class mig6
+    [Migration("20210804053404_mig2")]
+    partial class mig2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,12 +65,75 @@ namespace Hotel_DAL.Migrations
                     b.Property<int>("Bed")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Bed = 1,
+                            Description = "Описание категории стандарт с одной кроватью",
+                            Name = "Стандарт"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Bed = 2,
+                            Description = "Описание категории стандарт с двумя кроватями",
+                            Name = "Стандарт"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Bed = 1,
+                            Description = "Описание категории люкс с одной кроватью",
+                            Name = "Люкс"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Bed = 2,
+                            Description = "Описание категории люкс с двумя кроватями",
+                            Name = "Люкс"
+                        });
+                });
+
+            modelBuilder.Entity("Hotel_DAL.Entities.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EntityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ObjectState")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Operation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("Hotel_DAL.Entities.PriceCategory", b =>
@@ -97,6 +160,48 @@ namespace Hotel_DAL.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("PriceCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            EndDate = new DateTime(2022, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Price = 100m,
+                            StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 2,
+                            EndDate = new DateTime(2022, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Price = 200m,
+                            StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            EndDate = new DateTime(2021, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Price = 300m,
+                            StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 3,
+                            EndDate = new DateTime(2022, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Price = 1000m,
+                            StartDate = new DateTime(2021, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 4,
+                            EndDate = new DateTime(2022, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Price = 1400m,
+                            StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Hotel_DAL.Entities.Room", b =>
@@ -120,6 +225,36 @@ namespace Hotel_DAL.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Rooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            CategoryId = 1,
+                            Name = "101"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Active = true,
+                            CategoryId = 2,
+                            Name = "102"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Active = true,
+                            CategoryId = 3,
+                            Name = "201"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Active = true,
+                            CategoryId = 4,
+                            Name = "202"
+                        });
                 });
 
             modelBuilder.Entity("Hotel_DAL.Entities.User", b =>

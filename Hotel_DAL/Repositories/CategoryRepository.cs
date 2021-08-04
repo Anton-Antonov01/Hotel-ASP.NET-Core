@@ -28,9 +28,12 @@ namespace Hotel_DAL.Repositories
             return db.Categories.Find(id);
         }
 
-        public void Create(Category category)
+        public int Create(Category category)
         {
             db.Categories.Add(category);
+            db.SaveChanges();
+
+            return category.Id;
         }
 
         public void Delete(int id)

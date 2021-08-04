@@ -34,7 +34,7 @@ namespace Hotel_PL
         {
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<HotelContext>(options => options.UseSqlServer(connection));
-            services.AddTransient<IWorkUnit, EFWorkUnit>();//Как то указать, что будет передаваться аргументом как HotelContext
+            services.AddTransient<IWorkUnit, EFWorkUnit>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IRoomService, RoomService>();
@@ -42,6 +42,7 @@ namespace Hotel_PL
             services.AddTransient<IPriceCategoryService, PriceCategoryService>();
             services.AddTransient<IBaseService, BaseService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<ILogService, LogService>();
             services.AddTransient<SignInManager<User>>();
             services.AddTransient<UserManager<User>>();
 

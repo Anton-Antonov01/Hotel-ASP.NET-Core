@@ -29,10 +29,12 @@ namespace Hotel_DAL.Repositories
             return db.Rooms.Include(u => u.RoomCategory).SingleOrDefault(r => r.Id == id);
         }
 
-        public void Create(Room room)
+        public int Create(Room room)
         {
             room.RoomCategory = db.Categories.Find(room.RoomCategory.Id);
             db.Rooms.Add(room);
+            db.SaveChanges();
+            return room.Id;
         }
 
         public void Delete(int id)

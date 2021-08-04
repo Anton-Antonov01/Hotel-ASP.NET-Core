@@ -10,7 +10,7 @@ namespace Hotel_BLL.Interfaces
     public interface IPriceCategoryService
     {
         PriceCategoryDTO Get(int id);
-        void AddPriceCategory(PriceCategoryDTO guestDTO);
+        int AddPriceCategory(PriceCategoryDTO guestDTO);
         IEnumerable<PriceCategoryDTO> GetAllPriceCategories();
         void DeletePriceCategory(int id);
         void UpdatePriceCategory(PriceCategoryDTO priceCategoryDTO);

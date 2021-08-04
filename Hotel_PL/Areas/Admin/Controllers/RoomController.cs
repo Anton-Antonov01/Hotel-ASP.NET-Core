@@ -21,13 +21,17 @@ namespace Hotel_PL.Areas.Admin.Controllers
         private IRoomService roomService;
         private ICategoryService categoryService;
         private IPriceCategoryService priceCategoryService;
+        private ILogService logService;
+        private IUserService userService;
 
         private IMapper mapper;
-        public RoomController(IRoomService roomService, ICategoryService categoryService, IPriceCategoryService priceCategoryService)
+        public RoomController(IRoomService roomService, ICategoryService categoryService, IPriceCategoryService priceCategoryService, ILogService logService, IUserService userService)
         {
             this.categoryService = categoryService;
             this.roomService = roomService;
             this.priceCategoryService = priceCategoryService;
+            this.logService = logService;
+            this.userService = userService;
 
             mapper = new MapperConfiguration(
                 cfg => {
@@ -46,6 +50,7 @@ namespace Hotel_PL.Areas.Admin.Controllers
                     cfg.CreateMap<CategoryDTO, CategoryModel>();
                     cfg.CreateMap<RoomRequest, RoomDTO>().ReverseMap();
                     cfg.CreateMap<CategoryRequest, CategoryDTO>();
+                    cfg.CreateMap<LogDataModel, LogDataDTO>();
                 }
                 ).CreateMapper();
 
@@ -88,7 +93,20 @@ namespace Hotel_PL.Areas.Admin.Controllers
             {
                 var roomDTO = mapper.Map<RoomRequest, RoomDTO>(roomRequest);
                 roomDTO.RoomCategory = categoryService.Get(roomRequest.CategoryId);
-                roomService.AddRoom(roomDTO);
+               
+                var roomId = roomService.AddRoom(roomDTO);
+                var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                LogDataModel logDataModel = new LogDataModel()
+                {
+                    AdminId = adminId,
+                    EntityId = roomId,
+                    EntityName = "Room",
+                    ObjectState = roomRequest.ToString(),
+                };
+
+                logService.AddCreateLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
 
                 return RedirectToAction("AllRooms");
             }
@@ -126,6 +144,22 @@ namespace Hotel_PL.Areas.Admin.Controllers
                 roomDTO.Id = id;
                 roomService.UpdateRoom(roomDTO);
 
+
+                var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                LogDataModel logDataModel = new LogDataModel()
+                {
+                    AdminId = adminId,
+                    EntityId = id,
+                    EntityName = "Room",
+                    ObjectState = roomRequest.ToString(),
+                };
+
+                logService.AddEditLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
+
+
+
                 return RedirectToAction("AllRooms");
             }
             catch (ArgumentNullException ex)
@@ -146,7 +180,21 @@ namespace Hotel_PL.Areas.Admin.Controllers
         {
             try
             {
+                var room = roomService.Get(id);
                 roomService.DeleteRoom(id);
+
+                var adminId = userService.GetByPhoneNumber(User.Identity.Name).Id;
+
+                LogDataModel logDataModel = new LogDataModel()
+                {
+                    AdminId = adminId,
+                    EntityId = id,
+                    EntityName = "Room",
+                    ObjectState = room.ToString(),
+                };
+
+                logService.AddDeleteLog(mapper.Map<LogDataModel, LogDataDTO>(logDataModel));
+
                 return RedirectToAction("AllRooms");
             }
             catch
@@ -155,19 +203,5 @@ namespace Hotel_PL.Areas.Admin.Controllers
             }
         }
 
-        // POST: RoomController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }

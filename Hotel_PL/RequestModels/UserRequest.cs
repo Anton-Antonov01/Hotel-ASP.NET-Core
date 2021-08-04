@@ -22,5 +22,11 @@ namespace Hotel_PL.RequestModels
         [Required]
         [Display(Name = "Номер телефона")]
         public string PhoneNumber { get; set; }
+
+        public override string ToString()
+        {
+            return $"Name: {Name}, Surname: {Surname}, Address: {Address}, PhoneNumber: {PhoneNumber}";
+        }
+
     }
 }

@@ -19,5 +19,11 @@ namespace Hotel_PL.RequestModels
         [Required]
         [Display(Name = "В активе")]
         public bool Active { get; set; }
+
+        public override string ToString()
+        {
+            return $"Name: {Name}, CategoryId {CategoryId}, Active {Active}";
+        }
+
     }
 }

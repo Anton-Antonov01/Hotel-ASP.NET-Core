@@ -39,29 +39,39 @@ namespace Hotel_PL.Controllers
             this.accountService = accountService;
             this.roleManager = roleManager;
         }
+
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel regModel)
         {
             try
             {
-                //Сделать проверки на валидность и тд
+                var user = mapper.Map<RegisterViewModel, User>(regModel);
+                user.UserName = regModel.PhoneNumber;
 
-                //userService.AddGuest(mapper.Map<RegisterViewModel, UserDTO>(model));
+                var result = await userManager.CreateAsync(user, regModel.Password);
 
-                await accountService.Register(mapper.Map<RegisterViewModel,RegistrationModelDTO>(model));
-                var user = userService.GetAllGuests().SingleOrDefault(u => u.PhoneNumber == model.PhoneNumber);
+                var UserRoles = from r in roleManager.Roles.ToList()
+                                where r.Name == "Guest"
+                                select r.Name;
 
-                if (userManager.IsInRoleAsync(mapper.Map<UserDTO, User>(user), "Admin").Result)
+                var result2 = await userManager.AddToRolesAsync(user, UserRoles);
+
+                if (result.Succeeded && result2.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home", new { Area = "Admin" });
-                }
-                return RedirectToAction("Index", "Home");
 
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+
+                return RedirectToAction("Index", "Home");
             }
             catch
             {
@@ -73,27 +83,23 @@ namespace Hotel_PL.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
-
-
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel loginModel)
         {
             if (ModelState.IsValid)
             {
-
-                var result = await accountService.Login(mapper.Map<LoginViewModel,LoginModelDTO>(model));
-
+                var result = await signInManager.PasswordSignInAsync(loginModel.PhoneNumber, loginModel.Password, loginModel.RememberMe ,false);
 
                 if (result.Succeeded)
                 {
-                    var user = userService.GetAllGuests().SingleOrDefault(u => u.PhoneNumber == model.PhoneNumber);
-                    // проверяем, принадлежит ли URL приложению
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    var user = userService.GetAllUsers().SingleOrDefault(u => u.PhoneNumber == loginModel.PhoneNumber);
+
+                    if (!string.IsNullOrEmpty(loginModel.ReturnUrl) && Url.IsLocalUrl(loginModel.ReturnUrl))
                     {
-                        return Redirect(model.ReturnUrl);
+                        return Redirect(loginModel.ReturnUrl);
                     }
                     else
                     {
@@ -109,7 +115,7 @@ namespace Hotel_PL.Controllers
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
-            return View(model);
+            return View(loginModel);
         }
 
 
@@ -117,7 +123,6 @@ namespace Hotel_PL.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            // удаляем аутентификационные куки
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
