@@ -12,7 +12,7 @@ namespace Hotel_DAL.EF
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
-            string AdminNumber = "0684387784";
+            string AdminNumber = "111111";
             string AdminPassword = "111111";
 
             if (await roleManager.FindByNameAsync("Admin") == null)
@@ -30,8 +30,8 @@ namespace Hotel_DAL.EF
                     Name = "Anton",
                     Surname = "Antonov",
                     Address = "MySrteet",
-                    PhoneNumber = "0684387784",
-                    UserName = "0684387784",
+                    PhoneNumber = AdminNumber,
+                    UserName = AdminNumber,
                 };
                 IdentityResult result = await userManager.CreateAsync(admin, AdminPassword);
                 if (result.Succeeded)
@@ -45,8 +45,8 @@ namespace Hotel_DAL.EF
                     Name = "Misha",
                     Surname = "Antonov",
                     Address = "Other Street",
-                    PhoneNumber = "1111",
-                    UserName = "1111",
+                    PhoneNumber = "222222",
+                    UserName = "222222",
                 };
                 IdentityResult result2 = await userManager.CreateAsync(user, "222222");
                 if (result2.Succeeded)
