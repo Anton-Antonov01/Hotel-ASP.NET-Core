@@ -27,13 +27,15 @@
                 <img src="~/img/users-icon.png" height=80 width=80 />Список пользователей
             </button>
         </form>
-    </div>
-
-    <div class="btn-group" role="group" aria-label="Basic example">
         <form class="pr-2" asp-controller="PriceCategory" asp-action="AllPriceCategories" method="get">
             <input type="hidden" value="" />
             <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/pricecategory-icon.png" height=80 width=80 />Список цен по категориям</button>
         </form>
+
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+
 
         <form class="pr-2" asp-controller="Roles" asp-action="Index" method="post">
             <input type="hidden" value="" />
@@ -49,20 +51,22 @@
             <input type="hidden" value="" />
             <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/monthProfit-icon.png" height=80 width=80 />Прибыль за месяц</button>
         </form>
-    </div>
 
-    <div class="btn-group" role="group" aria-label="Basic example">
         <form class="pr-2" asp-controller="Booking" asp-action="CheckInTodayBookings" method="get">
             <input type="hidden" value="" />
-            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/booking-icon2.png" height=80 width=80 />въезд сегодня</button>
+            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/booking-icon2.png" height=80 width=80 />Бронирования, въезд сегодня</button>
         </form>
 
-        <form class="pr-2"   asp-controller="Log" asp-action="Index" method="get">
+        <form class="pr-2" asp-controller="Logging" asp-action="Index" method="get">
             <input type="hidden" value="" />
-            <button type="submit" class="Admin-Button  btn btn-primary"><img src="" height=80 width=80 />Логи</button>
+            <button type="submit" class="Admin-Button  btn btn-primary"><img src="~/img/logging-icon.png" height=80 width=80 />Логирование</button>
         </form>
+    </div>
 
-        @*<form class="pr-2" asp-area="" asp-controller="" asp-action="" method="get">
+    @*<div class="btn-group" role="group" aria-label="Basic example">
+
+
+        <form class="pr-2" asp-area="" asp-controller="" asp-action="" method="get">
             <input type="hidden" value="" />
             <button type="submit" class="Admin-Button  btn btn-primary"><img src="" height=80 width=80 />Поиск Категории</button>
         </form>
@@ -70,8 +74,8 @@
         <form class="pr-2" asp-area="" asp-controller="" asp-action="" method="get">
             <input type="hidden" value="" />
             <button type="submit" class="Admin-Button  btn btn-primary"><img src="" height=80 width=80 />Поиск бронирования</button>
-        </form>*@
-    </div>
+        </form>
+    </div>*@
 
     @*<div class="btn-group" role="group" aria-label="Basic example">
         <form class="pr-2" asp-controller="" asp-action="" method="get">

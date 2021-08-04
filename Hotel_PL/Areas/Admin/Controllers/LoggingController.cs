@@ -15,12 +15,12 @@ namespace Hotel_PL.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class LogController : Controller
+    public class LoggingController : Controller
     {
         ILogService logService;
         IMapper mapper;
 
-        public LogController(ILogService logService)
+        public LoggingController(ILogService logService)
         {
             this.logService = logService;
             mapper = new MapperConfiguration(
