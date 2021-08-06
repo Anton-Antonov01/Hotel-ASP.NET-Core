@@ -27,7 +27,7 @@ namespace Hotel_PL.Controllers
             mapper = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.CreateMap<RegisterViewModel, UserDTO>();
+                    cfg.CreateMap<RegisterViewModel, User>();
                     cfg.CreateMap<RegisterViewModel, RegistrationModelDTO>();
                     cfg.CreateMap<LoginViewModel, LoginModelDTO>();
                     cfg.CreateMap<UserDTO, User>();
